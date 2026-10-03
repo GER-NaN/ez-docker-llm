@@ -38,19 +38,33 @@ docker compose down
 
 The API is at `http://127.0.0.1:8085`.
 
-**GET /health**
+The requests below are demonstrate what it does. For actual code see : `examples/sample.py`.
+
+### GET /health
+
+Response:
 
 ```json
-{"status": "ok", "llama": "ok", "models": 4, "loaded": ["qwen-9b"]}
+{
+  "status": "ok",
+  "llama": "ok",
+  "models": 4,
+  "loaded": ["qwen-9b"]
+}
 ```
 
-**GET /models**
+### GET /models
+
+Response:
 
 ```json
-[{"name": "qwen-9b", "loaded": true}, {"name": "qwen-4b", "loaded": false}]
+[
+  {"name": "qwen-9b", "loaded": true},
+  {"name": "qwen-4b", "loaded": false}
+]
 ```
 
-**POST /prompt**
+### POST /prompt
 
 | Field | |
 |---|---|
@@ -59,16 +73,30 @@ The API is at `http://127.0.0.1:8085`.
 | `text` | Optional. Something for the model to read |
 | `format` | Optional. A JSON schema for the answer |
 
-A question:
+**A question**
+
+Request:
 
 ```json
-{"model": "qwen-9b", "prompt": "Who was the president in 2006?"}
-```
-```json
-{"model": "qwen-9b", "answer": "In 2006, George W. Bush was the President of the United States.", "seconds": 1.2}
+{
+  "model": "qwen-9b",
+  "prompt": "Who was the president in 2006?"
+}
 ```
 
-A question about a text:
+Response:
+
+```json
+{
+  "model": "qwen-9b",
+  "answer": "In 2006, George W. Bush was the President of the United States.",
+  "seconds": 1.2
+}
+```
+
+**A question about a text**
+
+Request:
 
 ```json
 {
@@ -77,11 +105,20 @@ A question about a text:
   "text": "Mayor Bob Barker discussed the financial situation with treasurer Jane Janet"
 }
 ```
+
+Response:
+
 ```json
-{"model": "qwen-9b", "answer": "Mayor Bob Barker and Treasurer Jane Janet work at City Hall.", "seconds": 0.41}
+{
+  "model": "qwen-9b",
+  "answer": "Mayor Bob Barker and Treasurer Jane Janet work at City Hall.",
+  "seconds": 0.41
+}
 ```
 
-The same, with the answer as JSON:
+**The same, with the answer as JSON**
+
+Request:
 
 ```json
 {
@@ -92,14 +129,27 @@ The same, with the answer as JSON:
     "type": "array",
     "items": {
       "type": "object",
-      "properties": {"name": {"type": "string"}, "role": {"type": "string"}},
+      "properties": {
+        "name": {"type": "string"},
+        "role": {"type": "string"}
+      },
       "required": ["name", "role"]
     }
   }
 }
 ```
+
+Response:
+
 ```json
-{"model": "qwen-9b", "answer": [{"name": "Bob Barker", "role": "Mayor"}, {"name": "Jane Janet", "role": "Treasurer"}], "seconds": 0.74}
+{
+  "model": "qwen-9b",
+  "answer": [
+    {"name": "Bob Barker", "role": "Mayor"},
+    {"name": "Jane Janet", "role": "Treasurer"}
+  ],
+  "seconds": 0.74
+}
 ```
 
 The first prompt to a model is slow while it loads. One model is loaded at a time. Asking for a different one swaps it in.
