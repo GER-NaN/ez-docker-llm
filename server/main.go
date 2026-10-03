@@ -44,7 +44,7 @@ type errorReply struct {
 	Answer string `json:"answer,omitempty"`
 }
 
-// llama.cpp DTOS
+// llama.cpp DTOs
 
 type llamaHealth struct {
 	Status string `json:"status"`

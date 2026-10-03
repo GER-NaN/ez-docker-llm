@@ -1,4 +1,4 @@
-"""Three example calls. Run with: python sample.py"""
+"""Three example calls. Run with: python examples/sample.py"""
 import json
 import urllib.error
 import urllib.request
@@ -6,11 +6,11 @@ import urllib.request
 URL = "http://127.0.0.1:8085/prompt"
 MODEL = "qwen-9b"
 
-# Example context provided to the model
+# The text we give the model to read.
 TEXT = "Mayor Bob Barker discussed the financial situation with treasurer Jane Janet"
 
-# A JSON schema: a list of objects, each with a name and a role.
-# In this sample script, we ask our model to return answers in this format.
+# The format we want the answer in, as a JSON schema:
+# a list of objects, each with a name and a role.
 FORMAT = {
     "type": "array",
     "items": {
@@ -36,14 +36,15 @@ def ask(body):
     except urllib.error.HTTPError as error:
         return error.read().decode()
 
-# A simple question with no context
+
+# A question on its own.
 print("1. prompt")
 print(ask({
     "model": MODEL,
     "prompt": "Who was the president in 2006?",
 }))
 
-# A simple question with a text for it to use
+# A question about a text.
 print("\n2. prompt and text")
 print(ask({
     "model": MODEL,
@@ -51,7 +52,7 @@ print(ask({
     "text": TEXT,
 }))
 
-# A simple question with a text and a format for the answer
+# The same question, with the answer in our format.
 print("\n3. prompt, text and format")
 print(ask({
     "model": MODEL,

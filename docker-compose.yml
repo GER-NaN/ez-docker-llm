@@ -1,6 +1,6 @@
 services:
   api:
-    build: .
+    build: ./server
     container_name: ez-docker-llm
     ports:
       - "127.0.0.1:${HOST_PORT:-8085}:8085"

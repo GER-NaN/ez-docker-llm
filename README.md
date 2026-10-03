@@ -2,13 +2,13 @@
 
 Local LLMs in Docker with a small HTTP API.
 
-You need Docker with NVIDIA GPU support.
+This is more than the bare minimum to get a model running. It is the bare minimum that makes a model easy to call from a script. See `examples/sample.py`.
 
-This is not the bare minimum to get a model running but it is the bare minimum that an external script can use easily, see sample.py.
+You need Docker with NVIDIA GPU support, and Python 3 to run the sample.
 
 ## Quick start
 
-Download a model:
+Download a model (5.7 GB):
 
 ```
 mkdir models
@@ -26,7 +26,7 @@ docker compose up -d --build
 Try it:
 
 ```
-python sample.py
+python examples/sample.py
 ```
 
 Stop it:
@@ -37,7 +37,7 @@ docker compose down
 
 ## API
 
-`http://127.0.0.1:8085`
+The API is at `http://127.0.0.1:8085`.
 
 **GET /health**
 
@@ -103,7 +103,7 @@ The same, with the answer as JSON:
 {"model": "qwen-9b", "answer": [{"name": "Bob Barker", "role": "Mayor"}, {"name": "Jane Janet", "role": "Treasurer"}], "seconds": 0.74}
 ```
 
-The first prompt to a model is slow while it loads. One model is loaded at a time; asking for another swaps it in.
+The first prompt to a model is slow while it loads. One model is loaded at a time. Asking for a different one swaps it in.
 
 ## Add your own model
 
@@ -121,7 +121,7 @@ model = /models/my-model.gguf
 docker compose up -d --force-recreate
 ```
 
-If a prompt answers `failed to load`, that model's file is not in `models/`.
+If a prompt returns `failed to load`, that model's file is not in `models/`.
 
 ### Customize a model
 
@@ -165,3 +165,7 @@ Optional. To change one, create a `.env` file next to `docker-compose.yml`, for 
 | `MODELS_DIR` | `./models` | Where the model files are |
 | `HOST_PORT` | `8085` | Port on your machine |
 | `MODELS_MAX` | `1` | Models loaded at once |
+
+## License
+
+Public domain. See `LICENSE`.
