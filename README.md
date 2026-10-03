@@ -11,7 +11,6 @@ You need Docker with NVIDIA GPU support, and Python 3 to run the sample.
 Download a model (5.7 GB):
 
 ```
-mkdir models
 cd models
 curl -L -O https://huggingface.co/unsloth/Qwen3.5-9B-GGUF/resolve/main/Qwen3.5-9B-Q4_K_M.gguf
 cd ..
