@@ -8,7 +8,7 @@ You need Docker with NVIDIA GPU support, and Python 3 to run the sample.
 
 ## Quick start
 
-Download a model (5.7 GB):
+Download a model, this one below is about 6GB
 
 ```
 cd models
