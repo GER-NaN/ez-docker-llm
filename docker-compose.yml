@@ -1,0 +1,35 @@
+services:
+  api:
+    build: .
+    container_name: ez-docker-llm
+    ports:
+      - "127.0.0.1:${HOST_PORT:-8085}:8085"
+    environment:
+      LLAMA_URL: "http://llama:8080"
+    depends_on:
+      llama:
+        condition: service_healthy
+
+  llama:
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda
+    container_name: ez-docker-llm-llama
+    volumes:
+      - "${MODELS_DIR:-./models}:/models:ro"
+      - "./models.ini:/config/models.ini:ro"
+    environment:
+      LLAMA_ARG_MODELS_PRESET: "/config/models.ini"
+      LLAMA_ARG_MODELS_MAX: "${MODELS_MAX:-1}"
+      LLAMA_ARG_HOST: "0.0.0.0"
+      LLAMA_ARG_PORT: "8080"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu ]
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 60
