@@ -154,6 +154,12 @@ Response:
 
 The first prompt to a model is slow while it loads. One model is loaded at a time. Asking for a different one swaps it in.
 
+### llama.cpp directly
+
+The API above is the simple one. llama.cpp's own server is also reachable, at `http://127.0.0.1:8086`, for anything the simple API leaves out: conversations with several turns, tool calling, streaming, and per-request settings.
+
+It speaks the OpenAI format (`POST /v1/chat/completions`) and the Anthropic format (`POST /v1/messages`), so tools and client libraries built for either can point at it. Model names are the same ones as above. See the [llama-server docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) for every endpoint.
+
 ## Add your own model
 
 1. Put the `.gguf` file in `models/`.
@@ -213,6 +219,7 @@ Optional. To change one, create a `.env` file next to `docker-compose.yml`, for 
 |---|---|---|
 | `MODELS_DIR` | `./models` | Where the model files are |
 | `HOST_PORT` | `8085` | Port on your machine |
+| `LLAMA_HOST_PORT` | `8086` | Port on your machine for llama.cpp directly |
 | `MODELS_MAX` | `1` | Models loaded at once |
 
 ## License

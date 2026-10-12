@@ -13,6 +13,8 @@ services:
   llama:
     image: ghcr.io/ggml-org/llama.cpp:server-cuda
     container_name: ez-docker-llm-llama
+    ports:
+      - "127.0.0.1:${LLAMA_HOST_PORT:-8086}:8080"
     volumes:
       - "${MODELS_DIR:-./models}:/models:ro"
       - "./models.ini:/config/models.ini:ro"
